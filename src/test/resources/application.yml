@@ -1,0 +1,5 @@
+shiro:
+  csrfguard:
+    enabled: true
+    protect-enabled: true
+  
