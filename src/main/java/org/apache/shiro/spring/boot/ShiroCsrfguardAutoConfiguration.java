@@ -1,7 +1,7 @@
 package org.apache.shiro.spring.boot;
 
 import org.apache.shiro.spring.boot.csrfguard.CsrfguardJavascriptServletProperties;
-import org.apache.shiro.spring.boot.csrfguard.authz.CsrfGuardFilter;
+import org.apache.shiro.spring.boot.csrfguard.web.filter.CsrfGuardFilter;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardHttpSessionListener;
 import org.owasp.csrfguard.servlet.JavaScriptServlet;

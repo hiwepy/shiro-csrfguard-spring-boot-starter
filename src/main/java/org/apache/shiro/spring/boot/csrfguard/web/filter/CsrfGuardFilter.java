@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.apache.shiro.spring.boot.csrfguard.authz;
+package org.apache.shiro.spring.boot.csrfguard.web.filter;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
