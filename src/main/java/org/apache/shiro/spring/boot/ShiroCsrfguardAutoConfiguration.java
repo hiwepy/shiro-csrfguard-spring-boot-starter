@@ -63,10 +63,10 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
     }
 	
 	@Bean
-	@ConditionalOnMissingBean
+	@ConditionalOnProperty(prefix = "shiro", value = "session-creation-enabled", havingValue = "true")
 	protected ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> csrfGuardHttpSessionListener()
 			throws Exception {
-
+		
 		ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> registrationBean = new ServletListenerRegistrationBean<CsrfGuardHttpSessionListener>();
 		registrationBean.setListener(new CsrfGuardHttpSessionListener());
 		registrationBean.setOrder(Integer.MIN_VALUE);

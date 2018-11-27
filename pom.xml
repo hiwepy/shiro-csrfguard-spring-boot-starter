@@ -429,10 +429,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.wso2.org.owasp/csrfguard -->
 		<dependency>
@@ -440,25 +436,6 @@
 		    <artifactId>csrfguard</artifactId>
 		    <version>${owasp-csrfguard.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.owasp.esapi/esapi -->
-		<dependency>
-		    <groupId>org.owasp.esapi</groupId>
-		    <artifactId>esapi</artifactId>
-		    <version>${owasp-esapi.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.owasp.encoder/encoder -->
-		<dependency>
-		    <groupId>org.owasp.encoder</groupId>
-		    <artifactId>encoder</artifactId>
-		    <version>${owasp-encoder.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.owasp.encoder/encoder-esapi -->
-		<dependency>
-		    <groupId>org.owasp.encoder</groupId>
-		    <artifactId>encoder-esapi</artifactId>
-		    <version>${owasp-encoder.version}</version>
-		</dependency>
-		
 		<dependency>
 		    <groupId>com.github.vindell</groupId>
 			<artifactId>shiro-biz</artifactId>

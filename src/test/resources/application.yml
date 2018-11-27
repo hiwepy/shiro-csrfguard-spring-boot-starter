@@ -2,4 +2,5 @@ shiro:
   csrfguard:
     enabled: true
     protect-enabled: true
+    validation-when-no-session-exists: false
   
