@@ -1,5 +1,6 @@
 package org.apache.shiro.spring.boot;
 
+import org.apache.shiro.spring.boot.csrfguard.CsrfguardConstants;
 import org.apache.shiro.spring.boot.csrfguard.CsrfguardJavascriptServletProperties;
 import org.apache.shiro.spring.boot.csrfguard.web.filter.CsrfGuardFilter;
 import org.owasp.csrfguard.CsrfGuard;
@@ -47,16 +48,16 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
 		
 		// 默认参数
 		CsrfguardJavascriptServletProperties javascript = properties.getJavascript();
-		registrationBean.addInitParameter("cache-control", javascript.getCacheControl());
-		registrationBean.addInitParameter("domain-strict", Boolean.toString(javascript.isDomainStrict()));
-		registrationBean.addInitParameter("inject-into-attributes", Boolean.toString(javascript.isInjectIntoAttributes()));
-		registrationBean.addInitParameter("inject-get-forms", Boolean.toString(javascript.isInjectGetForms()));
-		registrationBean.addInitParameter("inject-form-attributes", Boolean.toString(javascript.isInjectFormAttributes()));
-		registrationBean.addInitParameter("inject-into-forms", Boolean.toString(javascript.isInjectIntoForms()));
-		registrationBean.addInitParameter("referer-pattern", javascript.getRefererPattern());
-		registrationBean.addInitParameter("referer-match-domain", Boolean.toString(javascript.isRefererMatchDomain()));
-		registrationBean.addInitParameter("source-file", javascript.getSourceFile());
-		registrationBean.addInitParameter("x-requested-with", javascript.getXRequestedWith());
+		registrationBean.addInitParameter(CsrfguardConstants.CACHE_CONTROL_KEY, javascript.getCacheControl());
+		registrationBean.addInitParameter(CsrfguardConstants.DOMAIN_STRICT_KEY, Boolean.toString(javascript.isDomainStrict()));
+		registrationBean.addInitParameter(CsrfguardConstants.INJECT_FORM_ATTRIBUTES_KEY, Boolean.toString(javascript.isInjectIntoAttributes()));
+		registrationBean.addInitParameter(CsrfguardConstants.INJECT_GET_FORMS_KEY, Boolean.toString(javascript.isInjectGetForms()));
+		registrationBean.addInitParameter(CsrfguardConstants.INJECT_INTO_ATTRIBUTES_KEY, Boolean.toString(javascript.isInjectFormAttributes()));
+		registrationBean.addInitParameter(CsrfguardConstants.INJECT_INTO_FORMS_KEY, Boolean.toString(javascript.isInjectIntoForms()));
+		registrationBean.addInitParameter(CsrfguardConstants.REFERER_PATTERN_KEY, javascript.getRefererPattern());
+		registrationBean.addInitParameter(CsrfguardConstants.REFERER_MATCH_DOMAIN_KEY, Boolean.toString(javascript.isRefererMatchDomain()));
+		registrationBean.addInitParameter(CsrfguardConstants.SOURCE_FILE_KEY, javascript.getSourceFile());
+		registrationBean.addInitParameter(CsrfguardConstants.XREQUESTEDWITH_KEY, javascript.getXRequestedWith());
 		registrationBean.addUrlMappings(javascript.getPattern());
 
         return registrationBean;
