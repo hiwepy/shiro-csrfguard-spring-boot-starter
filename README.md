@@ -1,3 +1,3 @@
-# spring-boot-starter-shiro-csrfguard
+# shiro-csrfguard-spring-boot-starter
 
 Spring Boot Starter For Shiro With Owasp Csrfguard
