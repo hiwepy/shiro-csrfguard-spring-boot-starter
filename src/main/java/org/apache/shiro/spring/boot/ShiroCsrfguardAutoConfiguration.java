@@ -68,23 +68,24 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
 	protected ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> csrfGuardHttpSessionListener()
 			throws Exception {
 		
-		ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> registrationBean = new ServletListenerRegistrationBean<CsrfGuardHttpSessionListener>();
-		registrationBean.setListener(new CsrfGuardHttpSessionListener());
-		registrationBean.setOrder(Integer.MIN_VALUE);
-
-		return registrationBean;
+		ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> registration = new ServletListenerRegistrationBean<CsrfGuardHttpSessionListener>();
+		registration.setListener(new CsrfGuardHttpSessionListener());
+		registration.setOrder(Integer.MIN_VALUE);
+		registration.setEnabled(false);
+		
+		return registration;
 	}
 	
-	
-	@Bean
-    @ConditionalOnMissingBean
+	@Bean("csrf")
+    @ConditionalOnMissingBean(name = "csrf")
     protected FilterRegistrationBean<CsrfGuardFilter> csrfGuardFilter() throws Exception {
 
-        FilterRegistrationBean<CsrfGuardFilter> filterRegistrationBean = new FilterRegistrationBean<CsrfGuardFilter>();
-        filterRegistrationBean.setFilter(new CsrfGuardFilter());
-        filterRegistrationBean.setOrder(Integer.MIN_VALUE);
+        FilterRegistrationBean<CsrfGuardFilter> registration = new FilterRegistrationBean<CsrfGuardFilter>();
+        registration.setFilter(new CsrfGuardFilter());
+        registration.setOrder(Integer.MIN_VALUE);
+        registration.setEnabled(false);
+        return registration;
         
-        return filterRegistrationBean;
     }
 	
 	@Override
