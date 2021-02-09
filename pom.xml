@@ -374,8 +374,8 @@
 		<owasp-csrfguard.version>3.1.0-wso2v1</owasp-csrfguard.version>
 		<owasp-esapi.version>2.1.0.1</owasp-esapi.version>
 		<owasp-encoder.version>1.2.2</owasp-encoder.version>
-		<shiro.version>1.6.0</shiro.version>
-		<shiro-biz.version>1.1.2.RELEASE</shiro-biz.version>
+		<shiro.version>1.7.0</shiro.version>
+		<shiro-biz.version>1.1.5-SNAPSHOT</shiro-biz.version>
 	</properties> 
 
 	<dependencies>
