@@ -24,7 +24,7 @@ import java.util.Set;
 
 import lombok.Data;
 import org.apache.commons.collections.MapUtils;
-import org.apache.shiro.biz.utils.StringUtils;
+import org.apache.shiro.biz.utils.StringUtils2;
 
 /**
  * TODO
@@ -119,8 +119,8 @@ public class CsrfguardProperties {
 		properties.put("org.owasp.csrfguard.SessionKey", sessionKey);
 		properties.put("org.owasp.csrfguard.Ajax", ajaxEnabled);
 		properties.put("org.owasp.csrfguard.Protect", protectEnabled);
-		properties.put("org.owasp.csrfguard.ProtectedMethods", StringUtils.join(protectedMethods, ","));
-		properties.put("org.owasp.csrfguard.UnprotectedMethods", StringUtils.join(unprotectedMethods, ","));
+		properties.put("org.owasp.csrfguard.ProtectedMethods", StringUtils2.join(protectedMethods, ","));
+		properties.put("org.owasp.csrfguard.UnprotectedMethods", StringUtils2.join(unprotectedMethods, ","));
 		
 		if(MapUtils.isNotEmpty(actions)) {
 			Iterator<String> ite = actions.keySet().iterator();

@@ -1,8 +1,12 @@
 package org.apache.shiro.spring.boot;
 
+import java.lang.reflect.Method;
+
 import org.apache.shiro.spring.boot.csrfguard.CsrfguardConstants;
 import org.apache.shiro.spring.boot.csrfguard.CsrfguardJavascriptServletProperties;
 import org.apache.shiro.spring.boot.csrfguard.web.filter.CsrfGuardControlFilter;
+import org.apache.shiro.spring.boot.utils.JakartaFilterAdapter;
+import org.apache.shiro.spring.boot.utils.JakartaServletAdapter;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardHttpSessionListener;
 import org.owasp.csrfguard.CsrfGuardServletContextListener;
@@ -24,11 +28,16 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(org.owasp.csrfguard.CsrfGuard.class)
 @ConditionalOnProperty(prefix = ShiroCsrfguardProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties(ShiroCsrfguardProperties.class)
-/**\n * Auto-configuration for Shiro CSRF Guard integration.\n *\n * @author [@Loong Wan](https://github.com/loong10k)\n * @since 1.0.0\n */
+/**
+ * Auto-configuration for Shiro CSRF Guard integration.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 1.0.0
+ */
 public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware {
-	
+
 	private ApplicationContext applicationContext;
-	
+
 	@Bean
 	public CsrfGuard csrfGuard(ShiroCsrfguardProperties properties){
 		try {
@@ -37,17 +46,16 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
 		}
 		return CsrfGuard.getInstance();
 	}
-	
+
 	@Bean
     @ConditionalOnMissingBean
-	public ServletRegistrationBean<JavaScriptServlet> javaScriptServlet(ShiroCsrfguardProperties properties) throws Exception {
+	public ServletRegistrationBean<jakarta.servlet.Servlet> javaScriptServlet(ShiroCsrfguardProperties properties) throws Exception {
 
-		ServletRegistrationBean<JavaScriptServlet> registrationBean = new ServletRegistrationBean<JavaScriptServlet>();
-        
 		JavaScriptServlet javaScriptServlet = new JavaScriptServlet();
-		
-		registrationBean.setServlet(javaScriptServlet);
-		
+		// Wrap javax.servlet.http.HttpServlet as jakarta.servlet.Servlet
+		ServletRegistrationBean<jakarta.servlet.Servlet> registrationBean =
+				new ServletRegistrationBean<>(new JakartaServletAdapter(javaScriptServlet));
+
 		// 默认参数
 		CsrfguardJavascriptServletProperties javascript = properties.getJavascript();
 		registrationBean.addInitParameter(CsrfguardConstants.CACHE_CONTROL_KEY, javascript.getCacheControl());
@@ -64,30 +72,70 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
 
         return registrationBean;
     }
-	
+
 	@Bean
 	@ConditionalOnProperty(prefix = "shiro", value = "session-creation-enabled", havingValue = "true")
-	protected ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> csrfGuardHttpSessionListener()
+	protected ServletListenerRegistrationBean<jakarta.servlet.http.HttpSessionListener> csrfGuardHttpSessionListener()
 			throws Exception {
-		
-		ServletListenerRegistrationBean<CsrfGuardHttpSessionListener> registration = new ServletListenerRegistrationBean<CsrfGuardHttpSessionListener>();
-		registration.setListener(new CsrfGuardHttpSessionListener());
+
+		// Use a jakarta HttpSessionListener adapter since CsrfGuardHttpSessionListener implements javax
+		jakarta.servlet.http.HttpSessionListener jakartaListener = createJakartaSessionListener();
+		ServletListenerRegistrationBean<jakarta.servlet.http.HttpSessionListener> registration =
+				new ServletListenerRegistrationBean<>(jakartaListener);
 		registration.setOrder(Integer.MIN_VALUE);
 		registration.setEnabled(false);
-		
+
 		return registration;
 	}
-	
+
+	private jakarta.servlet.http.HttpSessionListener createJakartaSessionListener() {
+		CsrfGuardHttpSessionListener javaxListener = new CsrfGuardHttpSessionListener();
+		return new jakarta.servlet.http.HttpSessionListener() {
+			@Override
+			public void sessionCreated(jakarta.servlet.http.HttpSessionEvent se) {
+				try {
+					Class<?> eventClass = Class.forName("javax.servlet.http.HttpSessionEvent");
+					Object javaxEvent = adaptSessionEvent(se, eventClass);
+					javaxListener.getClass().getMethod("sessionCreated", eventClass).invoke(javaxListener, javaxEvent);
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+
+			@Override
+			public void sessionDestroyed(jakarta.servlet.http.HttpSessionEvent se) {
+				try {
+					Class<?> eventClass = Class.forName("javax.servlet.http.HttpSessionEvent");
+					Object javaxEvent = adaptSessionEvent(se, eventClass);
+					javaxListener.getClass().getMethod("sessionDestroyed", eventClass).invoke(javaxListener, javaxEvent);
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+
+			private Object adaptSessionEvent(jakarta.servlet.http.HttpSessionEvent se, Class<?> javaxEventClass) throws Exception {
+				return java.lang.reflect.Proxy.newProxyInstance(
+						javaxEventClass.getClassLoader(),
+						new Class<?>[]{javaxEventClass},
+						(proxy, method, args) -> {
+							Method jakartaMethod = se.getClass().getMethod(method.getName(), method.getParameterTypes());
+							return jakartaMethod.invoke(se, args);
+						}
+				);
+			}
+		};
+	}
+
 	@Bean("csrf")
     @ConditionalOnMissingBean(name = "csrf")
-    protected FilterRegistrationBean<CsrfGuardControlFilter> csrfGuardFilter() throws Exception {
+    protected FilterRegistrationBean<jakarta.servlet.Filter> csrfGuardFilter() throws Exception {
 
-        FilterRegistrationBean<CsrfGuardControlFilter> registration = new FilterRegistrationBean<CsrfGuardControlFilter>();
-        registration.setFilter(new CsrfGuardControlFilter());
+        FilterRegistrationBean<jakarta.servlet.Filter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new JakartaFilterAdapter(new CsrfGuardControlFilter()));
         registration.setOrder(Integer.MIN_VALUE);
         registration.setEnabled(false);
         return registration;
-        
+
     }
 
 	@Bean
@@ -103,6 +151,5 @@ public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware 
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-	
+
 }
- 

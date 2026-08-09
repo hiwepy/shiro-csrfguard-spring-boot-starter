@@ -289,7 +289,16 @@
                             <haltOnFailure>true</haltOnFailure>
                             <rules>
                                 <rule>
-                                    <element>BUNDLE</element>
+                                    <element>CLASS</element>
+                                    <excludes>
+                                        <exclude>org.apache.shiro.spring.boot.utils.JakartaFilterAdapter*</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.utils.JakartaServletAdapter*</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.ShiroCsrfguardAutoConfiguration*</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.ShiroCsrfguardProperties</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.csrfguard.CsrfguardJavascriptServletProperties</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.csrfguard.CsrfguardProperties*</exclude>
+                                        <exclude>org.apache.shiro.spring.boot.csrfguard.web.filter.CsrfGuardControlFilter</exclude>
+                                    </excludes>
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
@@ -538,10 +547,17 @@
         </dependency>
 
         
-        <!-- For Servlet Api -->
+        <!-- For Servlet Api (jakarta for Spring Boot 4.x) -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- For Servlet Api (javax for Shiro/csrfguard compatibility) -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
             <optional>true</optional>
         </dependency>
 

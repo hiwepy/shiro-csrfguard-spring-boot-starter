@@ -19,12 +19,12 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardFilter;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**                
+/**
  * 拷贝 org.owasp.csrfguard.CsrfGuardFilter
  * @author [@Loong Wan](https://github.com/loong10k)
  */
