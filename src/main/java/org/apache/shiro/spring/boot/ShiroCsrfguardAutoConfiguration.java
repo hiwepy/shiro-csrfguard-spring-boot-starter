@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(org.owasp.csrfguard.CsrfGuard.class)
 @ConditionalOnProperty(prefix = ShiroCsrfguardProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties(ShiroCsrfguardProperties.class)
+/**\n * Auto-configuration for Shiro CSRF Guard integration.\n *\n * @author [@Loong Wan](https://github.com/loong10k)\n * @since 1.0.0\n */
 public class ShiroCsrfguardAutoConfiguration implements ApplicationContextAware {
 	
 	private ApplicationContext applicationContext;
