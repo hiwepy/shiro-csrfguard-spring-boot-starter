@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * <p>CSRF Guard's JavaScriptServlet extends {@code javax.servlet.http.HttpServlet} while
  * Spring Boot 4.x's {@code ServletRegistrationBean} requires {@code jakarta.servlet.Servlet}.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class JakartaServletAdapter implements Servlet {

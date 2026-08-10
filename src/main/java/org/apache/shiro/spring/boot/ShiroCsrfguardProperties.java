@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 
 @ConfigurationProperties(ShiroCsrfguardProperties.PREFIX)
-/**\n * Configuration properties for Shiro CSRF Guard.\n *\n * @author [@Loong Wan](https://github.com/loong10k)\n * @since 1.0.0\n */
+/**\n * Configuration properties for Shiro CSRF Guard.\n *\n * @author <a href="https://github.com/loong10k">Loong Wan</a>\n * @since 1.0.0\n */
 public class ShiroCsrfguardProperties extends CsrfguardProperties {
 
 	public static final String PREFIX = "shiro.csrfguard";

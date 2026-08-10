@@ -28,7 +28,7 @@ import org.apache.shiro.biz.utils.StringUtils2;
 
 /**
  * TODO
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 @Data
 public class CsrfguardProperties {
