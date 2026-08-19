@@ -19,10 +19,21 @@ public class JakartaServletAdapter implements Servlet {
 
     private final Object delegate;
 
+    /**
+     * Constructs a new jakarta servlet adapter instance.
+     *
+     * @param delegate the delegate
+     */
     public JakartaServletAdapter(Object delegate) {
         this.delegate = delegate;
     }
 
+    /**
+     * init.
+     *
+     * @param config the config
+     * @throws ServletException if an error occurs
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
         try {
@@ -34,11 +45,24 @@ public class JakartaServletAdapter implements Servlet {
         }
     }
 
+    /**
+     * Returns the servlet config.
+     *
+     * @return the servlet config
+     */
     @Override
     public ServletConfig getServletConfig() {
         return null;
     }
 
+    /**
+     * service.
+     *
+     * @param req the req
+     * @param res the res
+     * @throws ServletException if an error occurs
+     * @throws IOException if an error occurs
+     */
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
         try {
@@ -51,11 +75,20 @@ public class JakartaServletAdapter implements Servlet {
         }
     }
 
+    /**
+     * Returns the servlet info.
+     *
+     * @return the servlet info
+     */
     @Override
     public String getServletInfo() {
         return "JakartaServletAdapter wrapping: " + delegate.getClass().getName();
     }
 
+    /**
+     * destroy.
+     *
+     */
     @Override
     public void destroy() {
         try {

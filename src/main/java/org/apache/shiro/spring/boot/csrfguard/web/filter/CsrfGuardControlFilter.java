@@ -27,17 +27,31 @@ import java.io.IOException;
 /**
  * 拷贝 org.owasp.csrfguard.CsrfGuardFilter
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 public class CsrfGuardControlFilter extends AccessControlFilter {
 
 	CsrfGuardFilter delegate = new CsrfGuardFilter();
 
+	/**
+	 * Sets the filter config.
+	 *
+	 * @param filterConfig the filter config
+	 */
 	@Override
 	public void setFilterConfig(FilterConfig filterConfig) {
 		super.setFilterConfig(filterConfig);
 		delegate.init(filterConfig);
 	}
 
+	/**
+	 * Determines whether is access allowed.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param mappedValue the mapped value
+	 * @return the result
+	 */
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws Exception {
@@ -45,11 +59,26 @@ public class CsrfGuardControlFilter extends AccessControlFilter {
 		return !CsrfGuard.getInstance().isEnabled();
 	}
 
+	/**
+	 * Determines whether on access denied.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @return the result
+	 * @throws Exception if an error occurs
+	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		return true;
 	}
 
+	/**
+	 * execute Chain.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param chain the chain
+	 */
 	@Override
 	public void executeChain(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {

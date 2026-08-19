@@ -29,6 +29,7 @@ import org.apache.shiro.biz.utils.StringUtils2;
 /**
  * TODO
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 @Data
 public class CsrfguardProperties {
@@ -50,10 +51,21 @@ public class CsrfguardProperties {
 			this.implClassName = implClassName;
 		}
 
+		/**
+		 * class Name.
+		 *
+		 * @return the result
+		 */
 		public String className() {
 			return implClassName;
 		}
 
+		/**
+		 * Determines whether equals.
+		 *
+		 * @param loggerType the logger type
+		 * @return the result
+		 */
 		public boolean equals(LoggerType loggerType) {
 			return this.compareTo(loggerType) == 0;
 		}
@@ -99,6 +111,11 @@ public class CsrfguardProperties {
 
 	private Set<String> unprotectedMethods = new HashSet<String>();
 
+	/**
+	 * to Properties.
+	 *
+	 * @return the result
+	 */
 	public Properties toProperties() {
 
 		Properties properties = new Properties();
